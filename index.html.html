@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Syed Danish | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#0f172a; --bg2:#111827; --accent:#22d3ee; --accent2:#a855f7;
+  --text:#e5e7eb; --muted:#94a3b8; --card:#0b1220;
+}
+body.light{--bg1:#eef2ff;--bg2:#ffffff;--accent:#0ea5e9;--accent2:#6366f1;--text:#0f172a;--muted:#475569;--card:#ffffff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Poppins',sans-serif;color:var(--text);background:linear-gradient(-45deg,var(--bg1),var(--bg2),#0b1220,#111827);background-size:400% 400%;animation:bgMove 18s ease infinite;overflow-x:hidden}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* Loader */
+#loader{position:fixed;inset:0;background:#0b1220;display:grid;place-items:center;z-index:9999;transition:.6s opacity,.6s visibility}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-ring{width:70px;height:70px;border-radius:50%;border:4px solid #1f2937;border-top-color:var(--accent);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Cursor Trail Canvas */
+#trail{position:fixed;inset:0;pointer-events:none;z-index:9998}
+
+/* Glow Orbs */
+.orb{position:fixed;width:420px;height:420px;border-radius:50%;filter:blur(60px);opacity:.35;pointer-events:none;z-index:-1;animation:float 18s ease-in-out infinite alternate}
+.orb.one{background:#22d3ee;top:-120px;left:-120px}
+.orb.two{background:#a855f7;bottom:-140px;right:-120px;animation-duration:22s}
+@keyframes float{from{transform:translateY(0) translateX(0) scale(1)}to{transform:translateY(80px) translateX(40px) scale(1.15)}}
+
+.container{max-width:1100px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid #1f2937;backdrop-filter:blur(10px)}
+body.light header{border-color:#e2e8f0}
+.name{font-size:26px;font-weight:700}
+nav{display:flex;align-items:center;gap:18px}
+nav a{color:var(--text);text-decoration:none;font-weight:500;position:relative}
+nav a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}
+nav a:hover::after{width:100%}
+.toggle{padding:8px 12px;border-radius:10px;cursor:pointer;background:var(--card);border:1px solid #1f2937;color:var(--text)}
+
+/* Page Transition */
+.page{animation:pageIn .9s cubic-bezier(.2,.65,.2,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+/* HERO */
+.hero{min-height:92vh;display:grid;place-items:center;text-align:center}
+.hero-inner{max-width:820px}
+.badge{display:inline-block;padding:6px 14px;border-radius:30px;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--accent);font-size:12px;letter-spacing:1px;margin-bottom:18px}
+.hero h1{font-size:48px;margin:0 0 14px}
+.gradient-text{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#typing{font-size:20px;font-weight:600;color:var(--accent);min-height:28px;display:block;margin-top:6px}
+.hero p{color:var(--muted);line-height:1.8;margin:18px 0 28px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{padding:12px 18px;border-radius:14px;font-weight:600;border:1px solid #1f2937;background:var(--card);color:var(--text);display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:.25s transform,.25s box-shadow}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));border:none;color:#001018}
+.btn:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+
+section{padding:80px 0}
+h2{font-size:26px;margin:0 0 24px;text-align:center}
+.card{background:rgba(15,23,42,.7);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:22px;backdrop-filter:blur(14px);transition:.35s transform,.35s box-shadow}
+body.light .card{background:#ffffff;border-color:#e2e8f0}
+.card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.grid{display:grid;gap:20px}
+.projects{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.muted{color:var(--muted)}
+
+/* Skills */
+.skills{max-width:720px;margin:auto;display:grid;gap:18px}
+.skill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:16px;border-radius:14px}
+.skill-name{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
+.bar{height:10px;background:#1f2937;border-radius:20px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:20px;transition:width 1.4s cubic-bezier(.2,.65,.2,1)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.65,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+footer{border-top:1px solid #1f2937;padding:26px 0;margin-top:40px;text-align:center;color:var(--muted)}
+body.light footer{border-color:#e2e8f0}
+@media(max-width:768px){.hero h1{font-size:34px}}
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader"><div class="loader-ring"></div></div>
+<canvas id="trail"></canvas>
+<div class="orb one"></div>
+<div class="orb two"></div>
+
+<div class="container page">
+<header>
+  <div class="name">Syed Danish</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+    <button class="toggle" onclick="toggleMode()">🌙 / ☀️</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="badge">PORTFOLIO</div>
+    <h1>Hello, I’m <span class="gradient-text">Syed Danish</span></h1>
+    <span id="typing"></span>
+    <p>Passionate about Technology, Programming, and Financial Markets. I love building modern web experiences and exploring stock market trading.</p>
+    <div class="btns">
+      <a class="btn primary" href="resume.pdf" download>⬇ Download Resume</a>
+      <a class="btn" href="mailto:syeddanish8217@gmail.com">📧 Email</a>
+      <a class="btn" href="tel:+918217649854">📞 Call</a>
+      <a class="btn" href="https://wa.me/918217649854" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="reveal">
+  <h2>About Me</h2>
+  <div class="card">I’m Syed Danish, a BCA student and aspiring software developer. I’m deeply interested in stock market trading, long-term investing, and building real-world tech projects with clean modern UI.</div>
+</section>
+
+<section id="education" class="reveal">
+  <h2>Education</h2>
+  <div class="grid projects">
+    <div class="card"><strong>BCA</strong><br>Kristu Jayanti (Deemed to be University), Bangalore, Karnataka</div>
+    <div class="card"><strong>12th Grade</strong><br>MES Prof. B.R. Subbarao PU College, Vidyaranyapura, Bangalore, Karnataka</div>
+    <div class="card"><strong>10th Grade</strong><br>Zainabiya School, Tumkur, Karnataka</div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <h2>Skills</h2>
+  <div class="skills">
+    <div class="skill"><div class="skill-name"><span>Python</span><span>85%</span></div><div class="bar"><div class="fill" data-width="85%"></div></div></div>
+    <div class="skill"><div class="skill-name"><span>Web Development</span><span>80%</span></div><div class="bar"><div class="fill" data-width="80%"></div></div></div>
+    <div class="skill"><div class="skill-name"><span>C Programming</span><span>70%</span></div><div class="bar"><div class="fill" data-width="70%"></div></div></div>
+    <div class="skill"><div class="skill-name"><span>Stock Market Analysis</span><span>75%</span></div><div class="bar"><div class="fill" data-width="75%"></div></div></div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <h2>Projects</h2>
+  <div class="grid projects">
+    <!-- Projects will be dynamically loaded from backend -->
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <h2>Contact</h2>
+  <div class="card">
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required style="width:100%;margin-bottom:10px;padding:8px;border-radius:8px;border:1px solid #1f2937;background:var(--card);color:var(--text)">
+      <input type="email" name="email" placeholder="Your Email" required style="width:100%;margin-bottom:10px;padding:8px;border-radius:8px;border:1px solid #1f2937;background:var(--card);color:var(--text)">
+      <textarea name="message" placeholder="Your Message" rows="4" required style="width:100%;margin-bottom:10px;padding:8px;border-radius:8px;border:1px solid #1f2937;background:var(--card);color:var(--text)"></textarea>
+      <button type="submit" class="btn primary" style="width:100%;">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>© 2026 Syed Danish • Built with HTML, CSS & JS</footer>
+</div>
+
+<script>
+// ------------------ Loader ------------------
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),600));
+
+// ------------------ Dark / Light ------------------
+function toggleMode(){document.body.classList.toggle('light');localStorage.setItem('mode',document.body.classList.contains('light')?'light':'dark')}
+if(localStorage.getItem('mode')==='light')document.body.classList.add('light');
+
+// ------------------ Typing Animation ------------------
+const roles=['Aspiring Software Developer','Stock Market & Trading Enthusiast','Web Developer','Tech Explorer'];
+let i=0,j=0,del=false;const el=document.getElementById('typing');
+function type(){const w=roles[i];el.textContent=w.slice(0,del?--j:++j);if(!del&&j===w.length){del=true;setTimeout(type,900);return}if(del&&j===0){del=false;i=(i+1)%roles.length}setTimeout(type,del?40:70)}type();
+
+// ------------------ Reveal Animation ------------------
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(s=>obs.observe(s));
+
+// ------------------ Skills Animation ------------------
+const skillObs=new IntersectionObserver(e=>{
+ e.forEach(x=>{
+  if(x.isIntersecting){
+    x.target.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.width);
+    skillObs.unobserve(x.target);
+  }
+ })
+},{threshold:.4});
+skillObs.observe(document.querySelector('#skills'));
+
+// ------------------ Cursor Trail ------------------
+const canvas=document.getElementById('trail');const ctx=canvas.getContext('2d');let particles=[];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+resize();addEventListener('resize',resize);
+addEventListener('mousemove',e=>{for(let k=0;k<3;k++)particles.push({x:e.clientX,y:e.clientY,vx:(Math.random()-.5)*1.5,vy:(Math.random()-.5)*1.5,life:60})});
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;p.life--;ctx.fillStyle='rgba(34,211,238,'+(p.life/60)+')';ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fill();if(p.life<=0)particles.splice(i,1)});requestAnimationFrame(draw)}draw();
+
+// ------------------ Backend Integration ------------------
+const API_BASE = 'http://localhost:5000'; // Change to your backend URL
+
+// Load Projects
+async function loadProjects(){
+  try{
+    const res = await fetch(`${API_BASE}/projects`);
+    if(!res.ok) throw new Error('Failed to fetch projects');
+    const projects = await res.json();
+    const container = document.querySelector('#projects .grid.projects');
+    container.innerHTML='';
+    projects.forEach(p=>{
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `<h3>${p.icon || '💻'} ${p.title}</h3><p class="muted">${p.description}</p>`;
+      container.appendChild(card);
+    });
+  }catch(err){
+    console.error(err);
+  }
+}
+window.addEventListener('load', loadProjects);
+
+// Contact Form Submission
+const contactForm = document.getElementById('contactForm');
+if(contactForm){
+  contactForm.addEventListener('submit', async e=>{
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(contactForm).entries());
+    try{
+      const res = await fetch(`${API_BASE}/contact`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(data)
+      });
+      if(res.ok){
+        alert('Message sent successfully!');
+        contactForm.reset();
+      } else alert('Failed to send message');
+    }catch(err){
+      console.error(err);
+      alert('Error sending message');
+    }
+  });
+}
+</script>
+
+</body>
+</html>
